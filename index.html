@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ar">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <title>Two Step Fullscreen GIF</title>
@@ -13,32 +13,37 @@ html, body {
   overflow: hidden;
   font-family: Arial, sans-serif;
   color: white;
+}
+
+body {
   display: flex;
   justify-content: center;
   align-items: center;
   text-align: center;
-  flex-direction: column;
 }
 
 #intro {
-  font-size: 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
 #visitorCount {
-  margin-top: 20px;
-  font-size: 20px;
-  color: yellow; /* لون العداد */
+  margin-top: 10px;
+  font-size: 16px;
+  color: #ffcc00;
+  opacity: 0.8;
 }
 
 button {
-  margin-top: 30px;
-  padding: 15px 30px;
-  font-size: 28px;
+  margin-top: 20px;
+  padding: 12px 24px;
+  font-size: 20px;
   cursor: pointer;
   background-color: red;
   color: white;
   border: none;
-  border-radius: 8px;
+  border-radius: 6px;
 }
 button:hover {
   background-color: darkred;
@@ -48,8 +53,6 @@ button:hover {
   display: none;
   position: fixed;
   inset: 0;
-  width: 100%;
-  height: 100%;
 }
 
 #main img {
@@ -62,27 +65,12 @@ button:hover {
   position: fixed;
   top: 8px;
   right: 8px;
-  font-size: 16px;
-  color: white;
-  font-family: Arial, sans-serif;
-  z-index: 1000;
+  font-size: 14px;
+  opacity: 0.8;
 }
-
 #credit a {
   color: white;
   text-decoration: none;
-  display: flex;
-  align-items: center;
-  gap: 3px;
-}
-
-#credit a:hover {
-  text-decoration: underline;
-}
-
-#insta-icon {
-  width: 16px;
-  height: 16px;
 }
 </style>
 </head>
@@ -90,10 +78,7 @@ button:hover {
 <body>
 
 <div id="credit">
-  <a href="https://instagram.com/f6xno" target="_blank">
-    <img src="instagram-icon.png" alt="Instagram" id="insta-icon">
-    @f6xno
-  </a>
+  <a href="https://instagram.com/f6xno" target="_blank">@f6xno</a>
 </div>
 
 <div id="intro">
@@ -101,15 +86,14 @@ button:hover {
   <p>ارجع الآن. لا يجب أن تكون هنا.</p>
   <p>Some things are better left unseen.</p>
   <p>بعض الأشياء من الأفضل ألا تُرى.</p>
-  <!-- الزر الجديد باللغتين -->
+
   <button id="continueBtn">Don’t Click | لا تضغط</button>
-  <!-- هنا سيظهر العداد -->
   <div id="visitorCount"></div>
 </div>
 
 <div id="main">
-  <img id="gif" src="image.gif">
-  <audio id="sound" src="sound.mp3"></audio>
+  <img src="image.gif" alt="hidden content">
+  <audio id="sound" src="sound.mp3" preload="auto"></audio>
 </div>
 
 <script>
@@ -118,25 +102,28 @@ const main = document.getElementById("main");
 const sound = document.getElementById("sound");
 const btn = document.getElementById("continueBtn");
 
-// **عداد الزيارات LocalStorage**
-let visits = localStorage.getItem('visits') || 0;
+// عداد محلي (تصحيح النوع)
+let visits = Number(localStorage.getItem("visits")) || 0;
 visits++;
-localStorage.setItem('visits', visits);
+localStorage.setItem("visits", visits);
 
-// عرض العداد بالعربية والإنجليزية
-document.getElementById('visitorCount').innerText = `الزيارات: ${visits} | Visits: ${visits}`;
+document.getElementById("visitorCount").textContent =
+  `Visits (local): ${visits}`;
 
-btn.onclick = () => {
+btn.addEventListener("click", async () => {
   intro.style.display = "none";
   main.style.display = "block";
 
-  if (document.documentElement.requestFullscreen) {
-    document.documentElement.requestFullscreen();
+  if (main.requestFullscreen) {
+    main.requestFullscreen().catch(() => {});
   }
 
-  sound.play();
-};
+  try {
+    await sound.play();
+  } catch {}
+});
 </script>
 
 </body>
 </html>
+
