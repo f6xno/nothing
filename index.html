@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+<meta charset="UTF-8">
+<title>Two Step Fullscreen GIF</title>
+
+<style>
+html, body {
+  margin: 0;
+  width: 100%;
+  height: 100%;
+  background: black;
+  overflow: hidden;
+  font-family: Arial, sans-serif;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  flex-direction: column;
+}
+
+#intro {
+  font-size: 28px;
+}
+
+button {
+  margin-top: 30px;
+  padding: 15px 30px;
+  font-size: 28px;
+  cursor: pointer;
+  background-color: red;
+  color: white;
+  border: none;
+  border-radius: 8px;
+}
+button:hover {
+  background-color: darkred;
+}
+
+#main {
+  display: none;
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+#main img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* يضمن تغطية كاملة للشاشة */
+}
+</style>
+</head>
+
+<body>
+
+<!-- الشاشة الأولى -->
+<div id="intro">
+  <p>Turn back now. You shouldn’t be here.</p>
+  <p>ارجع الآن. لا يجب أن تكون هنا.</p>
+  <p>Some things are better left unseen.</p>
+  <p>بعض الأشياء من الأفضل ألا تُرى.</p>
+  <button id="continueBtn">🙏🙏</button>
+</div>
+
+<!-- الشاشة الثانية -->
+<div id="main">
+  <img id="gif" src="image.gif">
+  <audio id="sound" src="sound.mp3"></audio>
+</div>
+
+<script>
+const intro = document.getElementById("intro");
+const main = document.getElementById("main");
+const sound = document.getElementById("sound");
+const btn = document.getElementById("continueBtn");
+
+btn.onclick = () => {
+  intro.style.display = "none";
+  main.style.display = "block";
+
+  // ملء الشاشة
+  if (document.documentElement.requestFullscreen) {
+    document.documentElement.requestFullscreen();
+  }
+
+  // تشغيل الصوت
+  sound.play();
+};
+</script>
+
+</body>
+</html>
