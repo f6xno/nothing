@@ -24,6 +24,12 @@ html, body {
   font-size: 28px;
 }
 
+#visitorCount {
+  margin-top: 20px;
+  font-size: 20px;
+  color: yellow; /* لون العداد */
+}
+
 button {
   margin-top: 30px;
   padding: 15px 30px;
@@ -96,6 +102,8 @@ button:hover {
   <p>Some things are better left unseen.</p>
   <p>بعض الأشياء من الأفضل ألا تُرى.</p>
   <button id="continueBtn">🙏🙏</button>
+  <!-- هنا سيظهر العداد -->
+  <div id="visitorCount"></div>
 </div>
 
 <div id="main">
@@ -113,7 +121,9 @@ const btn = document.getElementById("continueBtn");
 let visits = localStorage.getItem('visits') || 0;
 visits++;
 localStorage.setItem('visits', visits);
-console.log("عدد زياراتك:", visits);
+
+// عرض العداد على الصفحة الأولى
+document.getElementById('visitorCount').innerText = `عدد زياراتك: ${visits}`;
 
 btn.onclick = () => {
   intro.style.display = "none";
@@ -129,3 +139,4 @@ btn.onclick = () => {
 
 </body>
 </html>
+
