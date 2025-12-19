@@ -52,12 +52,11 @@ button:hover {
   object-fit: cover;
 }
 
-/* إضافة اسم الحساب وشعار إنستغرام */
 #credit {
   position: fixed;
   top: 8px;
   right: 8px;
-  font-size: 16px; /* صغير جدًا */
+  font-size: 16px;
   color: white;
   font-family: Arial, sans-serif;
   z-index: 1000;
@@ -84,7 +83,6 @@ button:hover {
 
 <body>
 
-<!-- اسم الحساب وشعار إنستغرام -->
 <div id="credit">
   <a href="https://instagram.com/f6xno" target="_blank">
     <img src="instagram-icon.png" alt="Instagram" id="insta-icon">
@@ -92,7 +90,6 @@ button:hover {
   </a>
 </div>
 
-<!-- الشاشة الأولى -->
 <div id="intro">
   <p>Turn back now. You shouldn’t be here.</p>
   <p>ارجع الآن. لا يجب أن تكون هنا.</p>
@@ -101,7 +98,6 @@ button:hover {
   <button id="continueBtn">🙏🙏</button>
 </div>
 
-<!-- الشاشة الثانية -->
 <div id="main">
   <img id="gif" src="image.gif">
   <audio id="sound" src="sound.mp3"></audio>
@@ -112,6 +108,12 @@ const intro = document.getElementById("intro");
 const main = document.getElementById("main");
 const sound = document.getElementById("sound");
 const btn = document.getElementById("continueBtn");
+
+// **عداد الزيارات LocalStorage**
+let visits = localStorage.getItem('visits') || 0;
+visits++;
+localStorage.setItem('visits', visits);
+console.log("عدد زياراتك:", visits);
 
 btn.onclick = () => {
   intro.style.display = "none";
@@ -127,4 +129,3 @@ btn.onclick = () => {
 
 </body>
 </html>
-
