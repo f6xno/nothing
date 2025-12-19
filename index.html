@@ -124,7 +124,8 @@ visits++;
 localStorage.setItem('visits', visits);
 
 // عرض العداد بالعربية والإنجليزية
-document.getElementById('visitorCount').innerText = الزيارات: ${visits} | Visits: ${visits};
+document.getElementById('visitorCount').innerText = `الزيارات: ${visits} | Your visits: ${visits}`;
+document.getElementById('visitorCount').innerText = `الزيارات: ${visits} | Visits: ${visits}`;
 
 btn.onclick = () => {
   intro.style.display = "none";
