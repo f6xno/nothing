@@ -6,76 +6,86 @@
 
 <style>
 html,body{
-margin:0;
-height:100%;
-overflow:hidden;
-background:#000;
-font-family:Arial;
+  margin:0;
+  height:100%;
+  overflow:hidden;
+  background:#000;
+  font-family:Arial;
 }
 
-/* الخلفية */
+/* الخلفية نجوم متحركة */
 canvas{
-position:fixed;
-top:0;
-left:0;
+  position:fixed;
+  top:0;
+  left:0;
 }
 
-/* النقطة التي يضغط عليها */
+/* النقطة الصفراء النابضة */
 #trigger{
-position:absolute;
-top:50%;
-left:50%;
-transform:translate(-50%,-50%);
-width:14px;
-height:14px;
-background:white;
-border-radius:50%;
-cursor:pointer;
-box-shadow:0 0 15px white;
-transition:0.3s;
+  position:absolute;
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%);
+  width:30px;       /* أكبر من قبل */
+  height:30px;
+  background:yellow; /* أصفر */
+  border-radius:50%;
+  cursor:pointer;
+  box-shadow:0 0 25px yellow;
+  transition:0.3s;
+  animation: pulse 2s infinite ease-in-out;
 }
 
-#trigger:hover{
-transform:translate(-50%,-50%) scale(1.5);
+/* تأثير النبض (تكبر وتصغر) */
+@keyframes pulse{
+  0% { transform: translate(-50%, -50%) scale(1); box-shadow:0 0 25px yellow;}
+  50% { transform: translate(-50%, -50%) scale(1.3); box-shadow:0 0 40px yellow;}
+  100% { transform: translate(-50%, -50%) scale(1); box-shadow:0 0 25px yellow;}
 }
 
 /* صفحة الجيف */
 #main{
-display:none;
-position:fixed;
-inset:0;
+  display:none;
+  position:fixed;
+  inset:0;
 }
 
 #main img{
-width:100%;
-height:100%;
-object-fit:cover;
+  width:100%;
+  height:100%;
+  object-fit:cover;
 }
 
 /* الانستغرام */
 #credit{
-position:fixed;
-top:10px;
-right:10px;
-z-index:100;
+  position:fixed;
+  top:10px;
+  right:10px;
+  z-index:100;
 }
 
 #credit a{
-color:white;
-text-decoration:none;
-display:flex;
-align-items:center;
-gap:5px;
+  color:white;
+  text-decoration:none;
+  display:flex;
+  align-items:center;
+  gap:5px;
 }
 
 #credit img{
-width:18px;
+  width:18px;
 }
 </style>
 </head>
 
 <body>
 
+<canvas id="bg"></canvas>
+
+<!-- النقطة النابضة -->
+<div id="trigger"></div>
+
+<!-- الانستغرام -->
 <div id="credit">
 <a href="https://instagram.com/f6xno" target="_blank">
 <img src="https://cdn-icons-png.flaticon.com/512/2111/2111463.png">
@@ -83,10 +93,7 @@ width:18px;
 </a>
 </div>
 
-<canvas id="bg"></canvas>
-
-<div id="trigger"></div>
-
+<!-- صفحة الجيف -->
 <div id="main">
 <img src="image.gif">
 <audio id="sound" src="sound.mp3"></audio>
@@ -102,52 +109,48 @@ canvas.height = innerHeight;
 let particles = [];
 
 for(let i=0;i<120;i++){
-particles.push({
-x:Math.random()*canvas.width,
-y:Math.random()*canvas.height,
-size:Math.random()*2,
-speed:Math.random()*0.5
-});
+  particles.push({
+    x:Math.random()*canvas.width,
+    y:Math.random()*canvas.height,
+    size:Math.random()*2,
+    speed:Math.random()*0.5
+  });
 }
 
 function animate(){
-ctx.fillStyle="black";
-ctx.fillRect(0,0,canvas.width,canvas.height);
+  ctx.fillStyle="black";
+  ctx.fillRect(0,0,canvas.width,canvas.height);
 
-ctx.fillStyle="white";
+  ctx.fillStyle="white";
+  particles.forEach(p=>{
+    ctx.beginPath();
+    ctx.arc(p.x,p.y,p.size,0,Math.PI*2);
+    ctx.fill();
+    p.y += p.speed;
+    if(p.y>canvas.height){
+      p.y=0;
+      p.x=Math.random()*canvas.width;
+    }
+  });
 
-particles.forEach(p=>{
-ctx.beginPath();
-ctx.arc(p.x,p.y,p.size,0,Math.PI*2);
-ctx.fill();
-
-p.y+=p.speed;
-
-if(p.y>canvas.height){
-p.y=0;
-p.x=Math.random()*canvas.width;
-}
-});
-
-requestAnimationFrame(animate);
+  requestAnimationFrame(animate);
 }
 
 animate();
 
-/* الضغط على النقطة */
-const trigger=document.getElementById("trigger");
-const main=document.getElementById("main");
-const sound=document.getElementById("sound");
+const trigger = document.getElementById("trigger");
+const main = document.getElementById("main");
+const sound = document.getElementById("sound");
 
-trigger.onclick=()=>{
-document.querySelector("canvas").style.display="none";
-trigger.style.display="none";
+trigger.onclick = ()=>{
+  canvas.style.display="none";
+  trigger.style.display="none";
 
-main.style.display="block";
+  main.style.display="block";
 
-document.documentElement.requestFullscreen();
+  document.documentElement.requestFullscreen();
 
-sound.play();
+  sound.play();
 };
 </script>
 
