@@ -2,87 +2,74 @@
 <html lang="ar">
 <head>
 <meta charset="UTF-8">
-<title>Two Step Fullscreen GIF</title>
+<title>Unknown</title>
 
 <style>
-html, body {
-  margin: 0;
-  width: 100%;
-  height: 100%;
-  background: black;
-  overflow: hidden;
-  font-family: Arial, sans-serif;
-  color: white;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  flex-direction: column;
+html,body{
+margin:0;
+width:100%;
+height:100%;
+background:black;
+overflow:hidden;
+font-family:Arial;
 }
 
-#intro {
-  font-size: 28px;
+/* الصفحة الأولى */
+#intro{
+height:100%;
+display:flex;
+justify-content:center;
+align-items:center;
+flex-direction:column;
+color:white;
 }
 
-#visitorCount {
-  margin-top: 20px;
-  font-size: 20px;
-  color: yellow; /* لون العداد */
+/* العنصر الغامض */
+#mystery{
+width:60px;
+height:60px;
+cursor:pointer;
+opacity:0.7;
+transition:0.3s;
 }
 
-button {
-  margin-top: 30px;
-  padding: 15px 30px;
-  font-size: 28px;
-  cursor: pointer;
-  background-color: red;
-  color: white;
-  border: none;
-  border-radius: 8px;
-}
-button:hover {
-  background-color: darkred;
+#mystery:hover{
+opacity:1;
+transform:scale(1.1);
 }
 
-#main {
-  display: none;
-  position: fixed;
-  inset: 0;
-  width: 100%;
-  height: 100%;
+/* الصفحة الثانية */
+#main{
+display:none;
+position:fixed;
+inset:0;
 }
 
-#main img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+#main img{
+width:100%;
+height:100%;
+object-fit:cover;
 }
 
-#credit {
-  position: fixed;
-  top: 8px;
-  right: 8px;
-  font-size: 16px;
-  color: white;
-  font-family: Arial, sans-serif;
-  z-index: 1000;
+/* الانستغرام */
+#credit{
+position:fixed;
+top:10px;
+right:10px;
+z-index:1000;
 }
 
-#credit a {
-  color: white;
-  text-decoration: none;
-  display: flex;
-  align-items: center;
-  gap: 3px;
+#credit a{
+color:white;
+text-decoration:none;
+display:flex;
+align-items:center;
+gap:5px;
 }
 
-#credit a:hover {
-  text-decoration: underline;
-}
-
-#insta-icon {
-  width: 16px;
-  height: 16px;
+#credit img{
+width:18px;
+height:18px;
 }
 </style>
 </head>
@@ -90,55 +77,47 @@ button:hover {
 <body>
 
 <div id="credit">
-  <a href="https://instagram.com/f6xno" target="_blank">
-    <img src="instagram-icon.png" alt="Instagram" id="insta-icon">
-    @f6xno
-  </a>
+<a href="https://instagram.com/f6xno" target="_blank">
+<img src="https://cdn-icons-png.flaticon.com/512/2111/2111463.png">
+@f6xno
+</a>
 </div>
 
+<!-- الصفحة الغامضة -->
 <div id="intro">
-  <p>Turn back now. You shouldn’t be here.</p>
-  <p>ارجع الآن. لا يجب أن تكون هنا.</p>
-  <p>Some things are better left unseen.</p>
-  <p>بعض الأشياء من الأفضل ألا تُرى.</p>
-  <!-- الزر الجديد باللغتين -->
-  <button id="continueBtn">Don’t Click | لا تضغط</button>
-  <!-- هنا سيظهر العداد -->
-  <div id="visitorCount"></div>
+
+<p style="opacity:0.6">something is watching</p>
+
+<img id="mystery"
+src="https://cdn-icons-png.flaticon.com/512/159/159604.png">
+
 </div>
 
+<!-- الصفحة الرئيسية -->
 <div id="main">
-  <img id="gif" src="image.gif">
-  <audio id="sound" src="sound.mp3"></audio>
+<img src="image.gif">
+<audio id="sound" src="sound.mp3"></audio>
 </div>
 
 <script>
+
 const intro = document.getElementById("intro");
 const main = document.getElementById("main");
+const mystery = document.getElementById("mystery");
 const sound = document.getElementById("sound");
-const btn = document.getElementById("continueBtn");
 
-// **عداد الزيارات LocalStorage**
-let visits = localStorage.getItem('visits') || 0;
-visits++;
-localStorage.setItem('visits', visits);
+mystery.onclick = () => {
 
-// عرض العداد بالعربية والإنجليزية
-document.getElementById('visitorCount').innerText = `الزيارات: ${visits} | Your visits: ${visits}`;
-document.getElementById('visitorCount').innerText = `الزيارات: ${visits} | Visits: ${visits}`;
+intro.style.display="none";
+main.style.display="block";
 
-btn.onclick = () => {
-  intro.style.display = "none";
-  main.style.display = "block";
+document.documentElement.requestFullscreen();
 
-  if (document.documentElement.requestFullscreen) {
-    document.documentElement.requestFullscreen();
-  }
+sound.play();
 
-  sound.play();
 };
+
 </script>
 
 </body>
 </html>
-
